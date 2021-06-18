@@ -39,14 +39,19 @@ router.put('/:id', md.checkAccountId, md.checkAccountPayload, md.checkAccountNam
   }
 });
 
-router.delete('/:id', md.checkAccountPayload, async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   // DO YOUR MAGIC
-  try {
-    await Accounts.deleteById(req.params.id)
-    res.json(req.account)
-  } catch (err) {
-    next(err)
-  }
+
+  const id = req.params.id
+  const deletedAccount = await Accounts.deleteById(id)
+  res.status(200).json(deletedAccount)
+
+  // try {
+  //   const deletedAccount = await Accounts.deleteById(req.params.id)
+  //   res.status(200).json(deletedAccount)
+  // } catch (err) {
+  //   next(err)
+  // }
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
